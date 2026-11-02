@@ -115,8 +115,9 @@
   // Добавляем горизонтальное расстояние между колонками в матрицах.
   set math.mat(column-gap: 1em)
 
-  // Делаем блоки сырого текста более сжатыми по вертикали.
+  // Делаем блоки сырого текста и таблицы более сжатыми по вертикали.
   show raw.where(block: true): set par(leading: 0.75em)
+  show table: set par(leading: 0.75em)
 
   // Задаем шрифты.
   set text(lang: lang, size: size)
@@ -127,7 +128,7 @@
   show math.equation: set text(font: inner-fonts.math) if inner-fonts.math != none
 
   // Добавим вертикальный пробел после заголовков.
-  show heading: it => block(it + v(0.5em))
+  show heading: it => { it + v(0.5em) }
 
   // Ссылки на уравнения в виде (1).
   // Данная функция предназначена для стандартных ссылок на формулы:
