@@ -3,18 +3,7 @@
 #import "@preview/breather:0.1.0": breathe
 #import "@preview/equate:0.3.3": equate
 
-#let neat-margin = (
-  top: 2cm,
-  bottom: 2cm,
-  inside: 3cm,
-  outside: 1cm,
-)
-#let neat-fonts = (
-  main: "PT Astra Serif",
-  sans: "PT Astra Sans",
-  mono: "Cascadia Code",
-  math: none,
-)
+#let std-margin = (top: 2cm, bottom: 2cm, inside: 3cm, outside: 1cm)
 
 // Переопределение заголовков в приложениях.
 #let appendix(body, supplement: [Приложение], numbering: "A.1") = {
@@ -59,18 +48,17 @@
 #let neat-document(
   indent: 2em,
   leading: 1em,
-  fonts: (:),
+  font: "Noto Serif",
+  sans-font: "Noto Sans",
+  mono-font: "Noto Sans Mono",
+  math-font: "Noto Sans Math",
   size: 14pt,
   raw-size: 0.9em,
-  margin: (:),
+  margin: (top: 2cm, bottom: 2cm, inside: 3cm, outside: 1cm),
   lang: "ru",
   refstyle: "chicago-author-date",
   doc,
 ) = {
-  // Обновляем значения по умолчанию собственными значениями.
-  let inner-margin = neat-margin + margin
-  let inner-fonts = neat-fonts + fonts
-
   let leading = calc.max(0.65em, leading)
   let h-leading = calc.max(0.65em, leading / 2)
 
@@ -89,7 +77,7 @@
     },
     footer: context align(center)[#counter(page).display("1", both: false)],
     columns: 1,
-    margin: inner-margin,
+    margin: std-margin + margin,
   )
 
   // Настройки параграфов.
@@ -123,9 +111,9 @@
   set text(lang: lang, size: size)
   show raw: set text(size: raw-size)
 
-  set text(font: inner-fonts.main) if inner-fonts.main != none
-  show raw: set text(font: inner-fonts.mono) if inner-fonts.mono != none
-  show math.equation: set text(font: inner-fonts.math) if inner-fonts.math != none
+  set text(font: font) if font != none
+  show raw: set text(font: mono-font) if mono-font != none
+  show math.equation: set text(font: math-font) if math-font != none
 
   // Добавим вертикальный пробел после заголовков.
   show heading: it => { it + v(0.5em) }
