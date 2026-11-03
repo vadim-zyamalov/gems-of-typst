@@ -11,6 +11,21 @@
   body
 }
 
+// Функция для поворота страницы.
+#let landscape(body) = context {
+  let m-top = page.margin.top
+  let m-bottom = page.margin.bottom
+
+  set page(flipped: true, margin: (
+    left: m-bottom,
+    right: m-top,
+    top: 2.5cm,
+    bottom: 2.5cm,
+  ))
+
+  body
+}
+
 #let put-title() = context {
   let authors = if document.author != none {
     if type(document.author) == array {
