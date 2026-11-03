@@ -147,7 +147,7 @@
 })
 
 // Основная функция темы.
-#let neat-theme(
+#let neat-slides(
   aspect-ratio: "16-9",
   margins: margins,
   ..args,

@@ -1,5 +1,5 @@
 [package]
-name = "neat-theme"
+name = "neat-slides"
 version = "0.1.0"
 entrypoint = "lib.typ"
 authors = ["Vadim Zyamalov <@vadim-zyamalov>"]
