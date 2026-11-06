@@ -1,0 +1,3 @@
+[submodule "local/altacv/1.8.0"]
+	path = local/altacv/1.8.0
+	url = https://github.com/smur89/alta-typst
