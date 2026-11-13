@@ -12,6 +12,11 @@
 #let vv = Vect
 #let vert = math.mid(sym.bar.v)
 
+#let TSS = math.italic([TSS])
+#let ESS = math.italic([ESS])
+#let SSR = math.italic([SSR])
+#let RSS = SSR
+
 #let pm = sym.plus.minus
 #let bigast = scale(150%)[$ast.op$]
 #let nonumber = none

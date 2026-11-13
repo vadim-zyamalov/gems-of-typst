@@ -2,11 +2,63 @@
 #import "@preview/parize:0.2.1": par-indent
 #import "@preview/breather:0.1.0": breathe
 #import "@preview/equate:0.3.3": equate
+#import "@local/trinkets:0.1.0": *
 
 #let std-margin = (top: 2cm, bottom: 2cm, inside: 3cm, outside: 1cm)
 
+// https://github.com/typst-gost/modern-g7-32/blob/main/src/utils.typ#L125
+#let asbuk-list = (
+  "а",
+  "б",
+  "в",
+  "г",
+  "д",
+  "е",
+  "ж",
+  "з",
+  "и",
+  "к",
+  "л",
+  "м",
+  "н",
+  "о",
+  "п",
+  "р",
+  "с",
+  "т",
+  "у",
+  "ф",
+  "х",
+  "ц",
+  "ч",
+  "ш",
+  "щ",
+  "э",
+  "ю",
+  "я",
+)
+
+#let asbuk(number) = {
+  let result = ""
+  while number > 0 {
+    result = asbuk-list.at(calc.rem(number - 1, 28)) + result
+    number = calc.floor(number / 28)
+  }
+  return result
+}
+
 // Переопределение заголовков в приложениях.
-#let appendix(body, supplement: [Приложение], numbering: "A.1") = {
+#let appendix(
+  body,
+  supplement: [Приложение],
+  numbering: (first, ..rest) => {
+    let result = upper(asbuk(first))
+    if rest.len() > 0 {
+      result += "." + rest.pos().map(str).join(".")
+    }
+    return result
+  },
+) = {
   set heading(numbering: numbering, supplement: supplement)
   body
 }
@@ -63,13 +115,15 @@
 #let neat-document(
   indent: 2em,
   leading: 1em,
+  justify: true,
+  hyphenate: false,
   font: "Noto Serif",
   sans-font: "Noto Sans",
   mono-font: "Noto Sans Mono",
   math-font: "Noto Sans Math",
   size: 14pt,
   raw-size: 0.9em,
-  margin: (top: 2cm, bottom: 2cm, inside: 3cm, outside: 1cm),
+  margin: (:),
   lang: "ru",
   refstyle: "chicago-author-date",
   doc,
@@ -92,12 +146,12 @@
     },
     footer: context align(center)[#counter(page).display("1", both: false)],
     columns: 1,
-    margin: std-margin + margin,
+    margin: margin, // std-margin + margin,
   )
 
   // Настройки параграфов.
   set par(
-    justify: true,
+    justify: justify,
     leading: leading,
     first-line-indent: (amount: indent, all: true),
   )
@@ -123,7 +177,7 @@
   show table: set par(leading: 0.75em)
 
   // Задаем шрифты.
-  set text(lang: lang, size: size)
+  set text(lang: lang, size: size, hyphenate: hyphenate)
   show raw: set text(size: raw-size)
 
   set text(font: font) if font != none
@@ -157,6 +211,7 @@
   show: par-indent
   show: equate.with(breakable: true, number-mode: "label")
   show: breathe
+  show: trinkets
 
   // Размещаем заголовок документа.
   put-title()
