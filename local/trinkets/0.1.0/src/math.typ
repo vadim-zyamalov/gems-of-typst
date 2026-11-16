@@ -18,6 +18,9 @@
 #let RSS = SSR
 
 #let pm = sym.plus.minus
+#let neq = sym.eq.not
+#let ge = sym.gt.eq.slant
+#let le = sym.lt.eq.slant
 #let bigast = scale(150%)[$ast.op$]
 #let nonumber = none
 #let sim = sym.tilde.op
