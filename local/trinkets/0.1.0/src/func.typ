@@ -104,3 +104,57 @@
     " "
   }
 }
+
+// Использование русского алфавита для нумерованых списков.
+// https://github.com/typst-gost/modern-g7-32/blob/main/src/utils.typ#L125
+#let asbuk-list = (
+  "а",
+  "б",
+  "в",
+  "г",
+  "д",
+  "е",
+  "ж",
+  "з",
+  "и",
+  "к",
+  "л",
+  "м",
+  "н",
+  "о",
+  "п",
+  "р",
+  "с",
+  "т",
+  "у",
+  "ф",
+  "х",
+  "ц",
+  "ч",
+  "ш",
+  "щ",
+  "э",
+  "ю",
+  "я",
+)
+
+#let asbuk(number) = {
+  let result = ""
+  while number > 0 {
+    result = asbuk-list.at(calc.rem(number - 1, 28)) + result
+    number = calc.floor(number / 28)
+  }
+  return result
+}
+
+#let asbuk-num(..n, ref: false) = {
+  n = n.pos()
+  let level = n.len()
+  if level == 1 {
+    (if ref { "(" } else { "" }) + asbuk(n.at(0)) + ")"
+  } else if level == 2 {
+    numbering("1.a.", ..n.slice(1))
+  } else {
+    numbering("1.a.", ..n)
+  }
+}
