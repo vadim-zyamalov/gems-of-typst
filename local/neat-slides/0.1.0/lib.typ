@@ -1,4 +1,6 @@
 #import "@preview/touying:0.7.4": *
+#import "@preview/equate:0.3.3": *
+#import "@local/trinkets:0.1.0": *
 
 #let margins = (top: 4.5em, bottom: 1.5em, x: 1em, y: 1em)
 
@@ -90,7 +92,7 @@
           height: 40%,
           inset: 0em,
           breakable: false,
-          fill-height-with-text(text(size: 1.5em, fill: self.colors.primary, strong(info.title))),
+          text(size: 1.5em, fill: self.colors.primary)[*#info.title*],
         )
 
         block(
@@ -150,6 +152,12 @@
 #let neat-slides(
   aspect-ratio: "16-9",
   margins: margins,
+  font: "Noto Serif",
+  sans-font: "Noto Sans",
+  mono-font: "Noto Sans Mono",
+  math-font: "Noto Sans Math",
+  size: 14pt,
+  lang: "ru",
   ..args,
   body,
 ) = {
@@ -174,6 +182,14 @@
     config-store(title: none),
     ..args,
   )
+
+  set par(leading: 1em)
+  set text(lang: lang, font: font, size: size)
+  show raw: set text(font: mono-font)
+  show raw.where(block: false): it => [*#it*]
+  show math.equation: set text(font: math-font)
+  set math.equation(supplement: none, numbering: (..nums) => numbering("(1)", ..nums))
+  show math.equation.where(block: true): equate.with(breakable: true, number-mode: "label")
 
   body
 }
