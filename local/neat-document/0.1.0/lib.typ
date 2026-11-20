@@ -6,47 +6,6 @@
 
 #let std-margin = (top: 2cm, bottom: 2cm, inside: 3cm, outside: 1cm)
 
-// https://github.com/typst-gost/modern-g7-32/blob/main/src/utils.typ#L125
-#let asbuk-list = (
-  "а",
-  "б",
-  "в",
-  "г",
-  "д",
-  "е",
-  "ж",
-  "з",
-  "и",
-  "к",
-  "л",
-  "м",
-  "н",
-  "о",
-  "п",
-  "р",
-  "с",
-  "т",
-  "у",
-  "ф",
-  "х",
-  "ц",
-  "ч",
-  "ш",
-  "щ",
-  "э",
-  "ю",
-  "я",
-)
-
-#let asbuk(number) = {
-  let result = ""
-  while number > 0 {
-    result = asbuk-list.at(calc.rem(number - 1, 28)) + result
-    number = calc.floor(number / 28)
-  }
-  return result
-}
-
 // Переопределение заголовков в приложениях.
 #let appendix(
   body,
