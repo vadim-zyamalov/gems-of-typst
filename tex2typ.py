@@ -47,27 +47,38 @@ parser.add_argument(
 
 
 patterns = [
+    # Убираем лишние скобки
     (r"(\^|_)\(([0-9A-Za-z])\)(?=( |\^|_|\)|\]|\}|,|\$))", r"\1\2"),
     (r"(\^|_)\(([0-9A-Za-z])\)(?=(\(|\(|\{)|[A-Za-z0-9]|\+|\-|=)", r"\1\2 "),
-    (r" '", r"' "),
+    # Исправляем положение апострофа
+    (r" '", r"^prime "),
+    (r"'_", r"^prime_"),
+    (r"'", r"^prime "),
+    # Функция векторизации
     (r"Vect([A-Za-z0-9]+)", r"vv(\1)"),
+    # Коррекция какого-то par
     (r"par([A-Za-z])(_|\^)", r"\1\2"),
     (r"par([A-Za-z]{2,})", r'italic("\1")'),
     (r'italic\("tial(.*?)"\)', r"partial \1"),
+    # Коррекция многобуквенных переменных
     (r"(([A-Z] )+[A-Z])", r'italic("\1")'),
+    # Удаление лишнего пробела
     (r"^ \$", r"$"),
+    # ref -> @
+    # cite -> @
     (r"\(#ref\(<(.*?)>\)\)", r"@\1"),
-    (r"«[ ]*(.*?)[ ]*»", r'"\1"'),
+    (r"\(#cite\(<(.*?)>\)\)", r"@\1"),
+    (r"#ref\(<(.*?)>\)", r"@\1"),
+    (r"#cite\(<(.*?)>\)", r"@\1"),
+    # Кавычки
+    (r"«[ ]*(.*?)[ ]*»", r'"\1"', re.MULTILINE),
+    # Минус после закрывающей скобки
     (r"\)(-|\+|=)", r") \1"),
     (r"(\)|\]|\})(?!(\)|\]|\}|\$|_|\^|,|\.|;|'))[ ]*", r"\1 "),
+    # Перенос строки по точке
     (r"([А-Яа-я])\. ", r"\1.\n"),
     (r"^(=+ .*)$", r"\n\1\n"),
 ]
-# with open("regex.txt", "r", encoding="utf8") as f:
-#     for line in f:
-#         line = re.sub('"[ ]+"', '"\t"', line)
-#         p0, p1 = line.strip().split("\t")
-#         patterns.append((p0[1:-1], p1[1:-1]))
 
 
 if __name__ == "__main__":
@@ -112,8 +123,11 @@ if __name__ == "__main__":
         for line in f:
             if line.strip() == "":
                 continue
-            for pat, repl in patterns:
-                line = re.sub(pat, repl, line)
+            for pat, repl, *flags in patterns:
+                flg = 0
+                for flag in flags:
+                    flg |= flag
+                line = re.sub(pat, repl, line, flags=flg)
             lines.append(line)
 
     with open(f_out, "w", encoding="utf8") as f:
