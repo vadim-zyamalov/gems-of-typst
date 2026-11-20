@@ -1,7 +1,0 @@
-[package]
-name = "callisto-unmargin"
-version = "0.1.0"
-entrypoint = "lib.typ"
-authors = ["Vadim Zyamalov <@vadim-zyamalov>"]
-license = "MIT"
-description = "Callisto Notepad theme modified not to place cell numbers in margins."

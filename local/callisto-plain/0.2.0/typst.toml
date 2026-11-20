@@ -1,0 +1,7 @@
+[package]
+name = "callisto-plain"
+version = "0.2.0"
+entrypoint = "lib.typ"
+authors = ["Vadim Zyamalov <@vadim-zyamalov>"]
+license = "MIT"
+description = "Callisto Notepad theme modified to be as plain as possible."
